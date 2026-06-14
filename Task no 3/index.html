@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Junaid Ahmed Yahya | Creative Technologist & Founder, JAY STUDIO</title>
+    <meta name="description"
+        content="Portfolio of Junaid Ahmed Yahya. Founder of JAY STUDIO, Frontend Developer, and Creative Technologist crafting high-end premium digital experiences.">
+
+    <!-- Design Tokens & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Dependencies: GSAP & Lenis for Premium Motion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #050505;
+            --bg-surface: #0D0D0D;
+            --text-primary: #F5F5F5;
+            --text-secondary: #8A8A8A;
+            --accent-gold: #D4AF37;
+            --accent-gold-muted: #C9A96E;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+        }
+
+        /* Reset & Base System */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-gold-muted);
+        }
+
+        /* Typography Utilities */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+
+        p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Structural Layout Elements */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 4rem;
+            position: relative;
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                padding: 0 2rem;
+            }
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader-content {
+            text-align: center;
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--accent-gold);
+            opacity: 0;
+        }
+
+        /* Navigation Architecture */
+        .header-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(5, 5, 5, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 90px;
+        }
+
+        .brand-logo {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand-logo span {
+            color: var(--accent-gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-item {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--accent-gold);
+        }
+
+        /* Cinematic Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 100px;
+            overflow: hidden;
+        }
+
+        .hero-bg-glow {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero-tag {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-title span {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--accent-gold-muted);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            line-height: 1.7;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        /* Buttons & Interactive Elements */
+        .btn {
+            padding: 1.2rem 2.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            border: 1px solid var(--accent-gold);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--accent-gold);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-gold-muted);
+            color: var(--accent-gold-muted);
+        }
+
+        /* Generic Section Blueprint */
+        .section {
+            padding: 10rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .section-header {
+            margin-bottom: 6rem;
+        }
+
+        .section-num {
+            font-family: var(--font-serif);
+            color: var(--accent-gold);
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            color: var(--text-primary);
+        }
+
+        /* Visual Journey (About & Timeline) */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 6rem;
+            align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+
+        .about-bio p {
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Profile Photo Frame */
+        .profile-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .profile-frame {
+            border: 1px solid var(--border-color);
+            background: var(--bg-surface);
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .profile-img-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: #151515;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-fallback-svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(110%);
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .profile-frame:hover .profile-fallback-svg {
+            transform: scale(1.03);
+        }
+
+        .profile-caption {
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .profile-caption span {
+            color: var(--accent-gold);
+        }
+
+        /* Timeline Metrics */
+        .timeline-container {
+            margin-top: 6rem;
+            position: relative;
+        }
+
+        .timeline-track {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            padding-left: 3rem;
+            position: relative;
+            margin-bottom: 4rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 6px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            border: 1px solid var(--accent-gold);
+        }
+
+        .timeline-meta {
+            font-size: 0.85rem;
+            color: var(--accent-gold-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-node-title {
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        /* Featured Experiences Card Space */
+        .case-studies-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8rem;
+        }
+
+        .case-study-card {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        @media (max-width: 992px) {
+            .case-study-card {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        .cs-visual-panel {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            aspect-ratio: 16 / 10;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .cs-mock-canvas {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0d0d0d 0%, #151515 100%);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .case-study-card:hover .cs-mock-canvas {
+            transform: scale(1.02);
+        }
+
+        .cs-mock-ui {
+            width: 85%;
+            height: 75%;
+            background: #050505;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 1.5rem;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .cs-mock-header {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+        }
+
+        .cs-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .cs-dot.active {
+            background: var(--accent-gold);
+        }
+
+        .cs-mock-hero {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 0.5rem;
+        }
+
+        .cs-mock-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .cs-mock-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            max-width: 200px;
+        }
+
+        .cs-info-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .cs-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-gold-muted);
+            margin-bottom: 1rem;
+        }
+
+        .cs-title {
+            font-size: 2.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cs-description {
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .cs-tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .tech-pill {
+            padding: 0.4rem 1rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .cs-actions {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        /* How I Build Process Matrix */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .process-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            padding: 3rem 2rem;
+            transition: border-color 0.4s ease;
+        }
+
+        .process-card:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .process-index {
+            font-family: var(--font-serif);
+            color: var(--accent-gold);
+            font-style: italic;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .process-name {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        /* Philosophy & Vision Statement Panes */
+        .philosophy-container,
+        .vision-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .quote-text {
+            font-family: var(--font-serif);
+            font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+            line-height: 1.4;
+            color: var(--text-primary);
+            font-style: italic;
+        }
+
+        .quote-author {
+            display: block;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-gold);
+        }
+
+        /* Beyond Code Grid Matrix */
+        .beyond-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .beyond-card {
+            border-left: 1px solid var(--border-color);
+            padding: 2rem 0 2rem 2rem;
+        }
+
+        .beyond-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* Trust Engine Statistics Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-card {
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-surface);
+        }
+
+        .stat-num {
+            font-size: 3.5rem;
+            font-family: var(--font-serif);
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: 400;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+        }
+
+        /* Premium Contact Conversion Terminal */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .contact-layout {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+
+        .contact-cta-heading {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+
+        .contact-cta-heading span {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--accent-gold-muted);
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .contact-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+        }
+
+        .contact-value {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .contact-value:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Footer Copyright Mark */
+        .footer-bar {
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Premium Gate Preloader -->
+    <div id="preloader">
+        <div class="loader-content">JAY STUDIO</div>
+    </div>
+
+    <!-- Layout Navigation Header -->
+    <header class="header-nav">
+        <div class="container nav-inner">
+            <a href="#" class="brand-logo">JAY <span>STUDIO</span></a>
+            <nav class="nav-links">
+                <a href="#work" class="nav-item">Work</a>
+                <a href="#about" class="nav-item">Studio</a>
+                <a href="#process" class="nav-item">Architecture</a>
+                <a href="#contact" class="nav-item">Connect</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Cinematic Hero Canvas -->
+    <section class="hero-section">
+        <div class="hero-bg-glow"></div>
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-tag">Creative Engineering Ecosystem</span>
+                <h1 class="hero-title">Crafting Digital Experiences <br>That Feel <span>Premium</span> Before They Sell.
+                </h1>
+                <p class="hero-subtitle">Frontend Developer &bull; Creative Technologist &bull; Founder of Jay Studio.
+                    Building structurally robust and visually stunning interfaces engineered around trust, speed, and
+                    design psychology.</p>
+                <div class="hero-actions">
+                    <a href="#work" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary">Let's Connect</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Structural Timeline & Editorial Biography -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-num">01 // EXECUTION ENGINE</span>
+                <h2 class="section-title">The Engineering Behind the Aesthetics</h2>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-bio">
+                    <p>I build web software at the critical convergence of elegant styling and high-performance frontend
+                        architecture. As a developer, I eliminate the disconnect between elite visual design layouts and
+                        clean, scalable codebases.</p>
+                    <p>Through my agency framework, Jay Studio, I manage digital lifecycles from spatial prototyping and
+                        design layout maps down to execution optimization, performance tuning, and fine-tuning asset
+                        pipelines.</p>
+
+                    <!-- Interactive Visual History Map -->
+                    <div class="timeline-container">
+                        <div class="timeline-track"></div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-meta">System Genesis</div>
+                            <h3 class="timeline-node-title">Algorithmic Core Deep-Dive</h3>
+                            <p>Mastered structural web fundamentals, advanced CSS logic, tracking mechanics, and
+                                standard functional design engineering primitives.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-meta">Production Phase</div>
+                            <h3 class="timeline-node-title">Full-Stack Application Deployment</h3>
+                            <p>Shipped live web products managing structured states, functional interfaces, responsive
+                                designs, and database layers.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-meta">Ecosystem Elevation</div>
+                            <h3 class="timeline-node-title">Premium Experience Design System</h3>
+                            <p>Pivoted completely toward performance motion dynamics, cinematic vector structures, and
+                                elite micro-interactions for scaling clients.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-meta">Corporate Form</div>
+                            <h3 class="timeline-node-title">Founded JAY STUDIO</h3>
+                            <p>Established an independent design engineering workspace producing luxury conversion
+                                frameworks and production solutions for businesses.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Editorial Identity Card Profile Frame -->
+                <div class="profile-container">
+                    <div class="profile-frame">
+                        <div class="profile-img-wrapper">
+                            <!-- Premium Embedded Brand Graphic Identity Matrix via SVG matching Gemini_Generated_Image_subrlqsubrlqsubr.png -->
+                            <svg class="profile-fallback-svg" viewBox="0 0 500 500" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <rect width="500" height="500" fill="#0A0A0A" />
+                                <circle cx="250" cy="250" r="210" stroke="#D4AF37" stroke-width="3" />
+                                <text x="250" y="220" font-family="'Playfair Display', serif" font-size="76"
+                                    font-weight="600" fill="#D4AF37" text-anchor="middle" letter-spacing="2">JAY</text>
+                                <text x="250" y="320" font-family="'Plus Jakarta Sans', sans-serif" font-size="46"
+                                    font-weight="500" fill="#D4AF37" text-anchor="middle"
+                                    letter-spacing="10">STUDIO</text>
+                                <path d="M250 20 L250 35 M250 465 L250 480 M20 250 L35 250 M465 250 L480 250"
+                                    stroke="rgba(212,175,55,0.3)" stroke-width="2" />
+                            </svg>
+                        </div>
+                        <div class="profile-caption">
+                            <span>Junaid Ahmed Yahya</span>
+                            <span>Founder / CD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Studies Space Matrix -->
+    <section id="work" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-num">02 // VERIFIED SYSTEMS</span>
+                <h2 class="section-title">Featured Digital Experiences</h2>
+            </div>
+
+            <div class="case-studies-list">
+                <div class="case-study-card">
+                    <div class="cs-visual-panel"
+                        onclick="window.open('https://velour-spa-beauty-salon.netlify.app/', '_blank')">
+                        <div class="cs-mock-canvas">
+                            <img src="Screenshot 2026-06-07 132523.png" alt="Velour Beauty & Spa"
+                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                        </div>
+                    </div>
+                    <div class="cs-info-panel">
+                        <span class="cs-tag">E-Commerce & Hospitality</span>
+                        <h3 class="cs-title">Velour Beauty & Spa</h3>
+                        <p class="cs-description">A high-end interface built with structural micro-animations, tailored
+                            luxury layout configurations, and fluid responsive design layouts targeting premium market
+                            users.</p>
+                        <div class="cs-tech-stack">
+                            <span class="tech-pill">Semantic HTML5</span>
+                            <span class="tech-pill">Advanced CSS Engine</span>
+                            <span class="tech-pill">Vanilla ES6+</span>
+                            <span class="tech-pill">UI/UX Layout Logic</span>
+                        </div>
+                        <div class="cs-actions">
+                            <a href="https://velour-spa-beauty-salon.netlify.app/" target="_blank"
+                                class="btn btn-secondary">Live System</a>
+                            <a href="https://github.com/junaidahmedyahya2101-sys/velour-salon-spa" target="_blank"
+                                class="btn btn-secondary">Source Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study-card">
+                    <div class="cs-visual-panel"
+                        onclick="window.open('https://real-estate-web-0.netlify.app/', '_blank')">
+                        <div class="cs-mock-canvas">
+                            <img src="af337d47fa2323d3e01ff06b69134eab.jpg" alt="UrbanRE System"
+                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                        </div>
+                    </div>
+                    <div class="cs-info-panel">
+                        <span class="cs-tag">Real Estate & FinTech Concept</span>
+                        <h3 class="cs-title">UrbanRE System Workspace</h3>
+                        <p class="cs-description">Designed around professional customer reassurance pipelines. Focuses
+                            on spatial composition grid layouts, strict structural hierarchies, and clean typography
+                            layouts.</p>
+                        <div class="cs-tech-stack">
+                            <span class="tech-pill">Mobile-First UI Architecture</span>
+                            <span class="tech-pill">Performance CSS Grid</span>
+                            <span class="tech-pill">Interaction Matrix</span>
+                        </div>
+                        <div class="cs-actions">
+                            <a href="https://real-estate-web-0.netlify.app/" target="_blank"
+                                class="btn btn-secondary">Live System</a>
+                            <a href="https://github.com/junaidahmedyahya2101-sys/real-estate-web-0" target="_blank"
+                                class="btn btn-secondary">Source Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study-card">
+                    <div class="cs-visual-panel"
+                        onclick="window.open('https://iron-forge-gym-01.netlify.app/', '_blank')">
+                        <div class="cs-mock-canvas">
+                            <img src="Screenshot 2026-06-07 132650.png" alt="Iron Forge Fitness"
+                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                        </div>
+                    </div>
+                    <div class="cs-info-panel">
+                        <span class="cs-tag">Fitness & Performance Tracking</span>
+                        <h3 class="cs-title">Iron Forge Fitness</h3>
+                        <p class="cs-description">A high-conversion marketing terminal featuring bold styling, robust
+                            typographic layouts, and fast loading performance configurations across all display form
+                            factors.</p>
+                        <div class="cs-tech-stack">
+                            <span class="tech-pill">High-Contrast Layout Systems</span>
+                            <span class="tech-pill">Asynchronous UI Mechanics</span>
+                            <span class="tech-pill">Responsive Design Rules</span>
+                        </div>
+                        <div class="cs-actions">
+                            <a href="https://iron-forge-gym-01.netlify.app/" target="_blank"
+                                class="btn btn-secondary">Live System</a>
+                            <a href="https://github.com/junaidahmedyahya2101-sys/iron-forge-gym" target="_blank"
+                                class="btn btn-secondary">Source Code</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Operational Lifecycle Section -->
+            <section id="process" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-num">03 // OPERATIONAL PIPELINE</span>
+                        <h2 class="section-title">How I Build</h2>
+                    </div>
+
+                    <div class="process-grid">
+                        <div class="process-card">
+                            <span class="process-index">01</span>
+                            <h3 class="process-name">Research</h3>
+                            <p>Deconstructing structural competitor mechanics, client conversion blueprints, and system
+                                performance benchmarks.</p>
+                        </div>
+                        <div class="process-card">
+                            <span class="process-index">02</span>
+                            <h3 class="process-name">Strategy</h3>
+                            <p>Mapping complex global interactive application schemas, element typography sizing, and
+                                semantic data models.</p>
+                        </div>
+                        <div class="process-card">
+                            <span class="process-index">03</span>
+                            <h3 class="process-name">Design</h3>
+                            <p>Prototyping premium layout solutions focusing heavily on UX psychology rules and clean
+                                responsive flows.</p>
+                        </div>
+                        <div class="process-card">
+                            <span class="process-index">04</span>
+                            <h3 class="process-name">Development</h3>
+                            <p>Writing highly performant, accessible semantic code alongside beautiful
+                                micro-interactions.</p>
+                        </div>
+                        <div class="process-card">
+                            <span class="process-index">05</span>
+                            <h3 class="process-name">Optimization</h3>
+                            <p>Refactoring core scripts, handling asset pre-rendering routines, and ensuring strict
+                                cross-browser compliance.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Elite Design Philosophy Space -->
+            <section class="section" style="background: var(--bg-surface);">
+                <div class="container">
+                    <div class="philosophy-container">
+                        <span class="section-num">// GUIDING LIGHT</span>
+                        <p class="quote-text">"Great websites are not built by adding more features. They are built by
+                            creating experiences people remember."</p>
+                        <span class="quote-author">Design Architecture Axiom</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Execution Vectors Panel Matrix -->
+            <section class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-num">04 // SPECIFIC CAPABILITIES</span>
+                        <h2 class="section-title">Beyond Code</h2>
+                    </div>
+
+                    <div class="beyond-grid">
+                        <div class="beyond-card">
+                            <h3>Creative Thinking</h3>
+                            <p>Translating ambiguous technical requirements into pixel-perfect digital experiences built
+                                around high-value presentation design systems.</p>
+                        </div>
+                        <div class="beyond-card">
+                            <h3>Design Psychology</h3>
+                            <p>Structuring clean layout visual focal paths and strategic micro-interactions that capture
+                                attention and build authority.</p>
+                        </div>
+                        <div class="beyond-card">
+                            <h3>Problem Solving</h3>
+                            <p>Isolating runtime script friction points and resolving challenging CSS layer constraints
+                                cleanly without bloated framework logic.</p>
+                        </div>
+                        <div class="beyond-card">
+                            <h3>User Experience</h3>
+                            <p>Building intuitive navigation flows that make complex business processes feel effortless
+                                for end-users.</p>
+                        </div>
+                        <div class="beyond-card">
+                            <h3>Performance Tuning</h3>
+                            <p>Optimizing critical render paths and code structure to maintain smooth framerates on both
+                                low-power and high-end screens.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Metrics Engine Core Component Area -->
+            <section class="section">
+                <div class="container">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-num" data-target="25">0</span>
+                            <span class="stat-label">Production Deployments</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" data-target="12">0</span>
+                            <span class="stat-label">Core Technologies Mastered</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" data-target="365">0</span>
+                            <span class="stat-label">Continuous System Building Days</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" data-target="100">0</span>
+                            <span class="stat-label">% Intentional Architecture Focus</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Strategic Vision Concept Node Area -->
+            <section class="section" style="background: var(--bg-surface);">
+                <div class="container">
+                    <div class="vision-container">
+                        <span class="section-num">// STRATEGIC MANDATE</span>
+                        <p class="quote-text">"My goal is not simply to build websites. My goal is to create digital
+                            experiences that strengthen brands, build trust, and drive results."</p>
+                        <span class="quote-author">Junaid Ahmed Yahya &mdash; JAY STUDIO</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Interactive Conversion Gate -->
+            <section id="contact" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-num">05 // PLATFORM HANDSHAKE</span>
+                        <h2 class="section-title">Initiate Transmission</h2>
+                    </div>
+
+                    <div class="contact-layout">
+                        <div>
+                            <h3 class="contact-cta-heading">Let's build something that leaves standard industry
+                                <span>templates</span> behind.</h3>
+                            <p style="font-size: 1.1rem; max-width: 500px;">Available for premium web development,
+                                studio collaborations, and elite engineering roles.</p>
+                        </div>
+
+                        <div class="contact-methods">
+                            <div class="contact-row">
+                                <span class="contact-label">Secure Direct Mail</span>
+                                <a href="mailto:junaidahmedyahya54@gmail.com"
+                                    class="contact-value">junaidahmedyahya54@gmail.com</a>
+                            </div>
+                            <div class="contact-row">
+                                <span class="contact-label">Voice Channel Link</span>
+                                <a href="tel:+923188207485" class="contact-value">+92 318 8207485</a>
+                            </div>
+                            <div class="contact-row">
+                                <span class="contact-label">Professional Profile</span>
+                                <a href="https://www.linkedin.com/in/jay-studio-a7558a3a9/" target="_blank"
+                                    class="contact-value">linkedin.com/in/jay-studio</a>
+                            </div>
+                            <div class="contact-row">
+                                <span class="contact-label">Repository Core</span>
+                                <a href="https://github.com/junaidahmedyahya2101-sys" target="_blank"
+                                    class="contact-value">github.com/junaidahmedyahya2101-sys</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer Copyright Block Section -->
+            <footer class="footer-bar">
+                <div class="container">
+                    &copy; 2026 JAY STUDIO // ENGINEERED BY JUNAID AHMED YAHYA. ALL RIGHTS RESERVED ACCORDING TO SYSTEM
+                    RULES.
+                </div>
+            </footer>
+
+            <!-- Execution Script Layer Module -->
+            <script>
+                // Core Animation Mechanics Integration Engine
+                document.addEventListener("DOMContentLoaded", () => {
+
+                    // 1. Initialize Lenis Smooth Scroll Engine Mechanics
+                    const lenis = new Lenis({
+                        duration: 1.2,
+                        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                        orientation: 'vertical',
+                        gestureOrientation: 'vertical',
+                        smoothWheel: true
+                    });
+
+                    function raf(time) {
+                        lenis.raf(time);
+                        requestAnimationFrame(raf);
+                    }
+                    requestAnimationFrame(raf);
+
+                    // 2. Preloader Animation Matrix Setup Routine
+                    const tlLoader = gsap.timeline({
+                        onComplete: () => {
+                            document.getElementById('preloader').style.display = 'none';
+                            initHeroAnimations();
+                        }
+                    });
+
+                    tlLoader.to(".loader-content", {
+                        opacity: 1,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    })
+                        .to(".loader-content", {
+                            letterSpacing: "6px",
+                            duration: 1.2,
+                            ease: "power1.inOut"
+                        }, "-=0.4")
+                        .to("#preloader", {
+                            yPercent: -100,
+                            duration: 0.8,
+                            ease: "power4.inOut"
+                        });
+
+                    // 3. Cinematic Hero Entry Sequencer Automation Rules
+                    function initHeroAnimations() {
+                        gsap.from(".header-nav", {
+                            yPercent: -100,
+                            duration: 1,
+                            ease: "power3.out"
+                        });
+
+                        gsap.from(".hero-tag", {
+                            opacity: 0,
+                            y: 20,
+                            duration: 0.8,
+                            ease: "power3.out"
+                        });
+
+                        gsap.from(".hero-title", {
+                            opacity: 0,
+                            y: 30,
+                            duration: 1,
+                            delay: 0.2,
+                            ease: "power3.out"
+                        });
+
+                        gsap.from(".hero-subtitle", {
+                            opacity: 0,
+                            y: 20,
+                            duration: 1,
+                            delay: 0.4,
+                            ease: "power3.out"
+                        });
+
+                        gsap.from(".hero-actions", {
+                            opacity: 0,
+                            y: 20,
+                            duration: 1,
+                            delay: 0.6,
+                            ease: "power3.out"
+                        });
+
+                        gsap.from(".hero-bg-glow", {
+                            scale: 0.5,
+                            opacity: 0,
+                            duration: 2,
+                            ease: "power2.out"
+                        });
+                    }
+
+                    // Register ScrollTrigger Functionality with the Host Engine
+                    gsap.registerPlugin(ScrollTrigger);
+
+                    // 4. Section Reveals Automation Layout Blocks Loop Matrix
+                    const sections = document.querySelectorAll('.section');
+                    sections.forEach(section => {
+                        const header = section.querySelector('.section-header');
+                        if (header) {
+                            gsap.from(header, {
+                                scrollTrigger: {
+                                    trigger: section,
+                                    start: "top 80%",
+                                    toggleActions: "play none none none"
+                                },
+                                opacity: 0,
+                                y: 40,
+                                duration: 1,
+                                ease: "power3.out"
+                            });
+                        }
+                    });
+
+                    // 5. Timeline Nodes Sequencer Activation Routine
+                    gsap.utils.toArray('.timeline-item').forEach(item => {
+                        gsap.from(item, {
+                            scrollTrigger: {
+                                trigger: item,
+                                start: "top 85%"
+                            },
+                            opacity: 0,
+                            x: -20,
+                            duration: 0.8,
+                            ease: "power2.out"
+                        });
+                    });
+
+                    // 6. Case Studies Motion Blueprint Intercept Logic
+                    gsap.utils.toArray('.case-study-card').forEach(card => {
+                        gsap.from(card, {
+                            scrollTrigger: {
+                                trigger: card,
+                                start: "top 80%"
+                            },
+                            opacity: 0,
+                            y: 50,
+                            duration: 1,
+                            ease: "power3.out"
+                        });
+                    });
+
+                    // 7. Stat Numerical Engine Counter Animation Pipeline Rules
+                    gsap.utils.toArray('.stat-num').forEach(num => {
+                        const target = parseInt(num.getAttribute('data-target'), 10);
+                        gsap.to(num, {
+                            scrollTrigger: {
+                                trigger: num,
+                                start: "top 90%"
+                            },
+                            innerText: target,
+                            duration: 2,
+                            snap: { innerText: 1 },
+                            ease: "power2.out"
+                        });
+                    });
+
+                    // 8. Navigation Active Matrix Element Highlight Automation Check Layer
+                    const navItems = document.querySelectorAll('.nav-item');
+                    window.addEventListener('scroll', () => {
+                        let current = '';
+                        sections.forEach(section => {
+                            const sectionTop = section.offsetTop;
+                            const sectionHeight = section.clientHeight;
+                            if (pageYOffset >= (sectionTop - 200)) {
+                                current = section.getAttribute('id');
+                            }
+                        });
+
+                        navItems.forEach(item => {
+                            item.classList.remove('active');
+                            if (item.getAttribute('href').slice(1) === current) {
+                                item.classList.add('active');
+                            }
+                        });
+                    });
+                });
+            </script>
+</body>
+
+</html>
